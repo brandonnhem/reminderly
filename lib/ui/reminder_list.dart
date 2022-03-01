@@ -11,15 +11,21 @@ class ReminderPage extends StatefulWidget {
 class _ReminderPageState extends State<ReminderPage> {
   @override
   Widget build(BuildContext context) {
+    List<Widget> cards = [
+      reminderCard(context, 'assets/images/dogbowl.jpg', 'Feed the dogs', '2:00'),
+      reminderCard(context, 'assets/images/trashbin.jpg', 'Take out the ', '168:00'),
+      reminderCard(context, 'assets/images/toothbrush.jpg', 'Brush TEETH', '8:00'),
+      reminderCard(context, 'assets/images/laundrybasket.jpg', 'Do laundry', '5:00')
+    ];
+
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          reminderCard(context, 'assets/images/dogbowl.jpg', 'Feed the dogs', '16:00')
-        ],
-      ),
+      child: ListView.builder(
+        itemCount: cards.length,
+        itemBuilder: (BuildContext context, int index) {
+          return cards[index];
+        }
+      )
     );
   }
 }
