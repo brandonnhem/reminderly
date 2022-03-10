@@ -200,11 +200,19 @@ class Reminder extends StatelessWidget{
   }
 
   String getDailyTimeString() {
-    int nonMilitaryTime = 24 - date.hour;
-    if (date.minute == 0) {
-      return '$nonMilitaryTime:${date.minute}0'; 
+    if (date.hour > 12) {
+      int nonMilitaryTime = 24 - date.hour;
+      if (date.minute == 0) {
+        return '$nonMilitaryTime:${date.minute}0'; 
+      } else {
+        return '$nonMilitaryTime:${date.minute}';
+      }
     } else {
-      return '$nonMilitaryTime:${date.minute}';
+      if (date.minute == 0) {
+        return '${date.hour}:${date.minute}0'; 
+      } else {
+        return '${date.hour}:${date.minute}';
+      }
     }
   }
 
