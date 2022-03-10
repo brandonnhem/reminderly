@@ -4,12 +4,14 @@ class Reminder extends StatelessWidget{
   final String time;
   final String description;
   final String imageUrl;
+  final String networkImageUrl;
 
   const Reminder({
     Key? key,
     required this.time,
     required this.description,
-    required this.imageUrl
+    this.imageUrl = '',
+    this.networkImageUrl = ''
   }) : super(key: key);
 
   @override
@@ -103,11 +105,18 @@ class Reminder extends StatelessWidget{
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    imageUrl,
-                    height: 125.0,
-                    fit: BoxFit.cover,
-                  ),
+                  child: imageUrl != '' ? 
+                    Image.asset(
+                      imageUrl,
+                      height: 125.0,
+                      fit: BoxFit.cover,
+                    )
+                    : 
+                    Image.network(
+                      networkImageUrl,
+                      height: 125.0,
+                      fit: BoxFit.cover,
+                    ),
                 ),
               ),
             )
