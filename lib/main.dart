@@ -28,7 +28,7 @@ class Remindly extends StatelessWidget {
             ),
           ]
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[300],
         floatingActionButton: FloatingActionButton(
           tooltip: 'Add New Reminder',
           child: const Icon(
