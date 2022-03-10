@@ -116,6 +116,18 @@ class Reminder extends StatelessWidget{
                       networkImageUrl,
                       height: 125.0,
                       fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                        if(loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.deepOrange,
+                            value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                              : null,
+                          ),
+                        );
+                      },
                     ),
                 ),
               ),
