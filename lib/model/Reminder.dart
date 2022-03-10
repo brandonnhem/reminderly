@@ -95,7 +95,7 @@ class Reminder extends StatelessWidget{
                             getWeeklyDayString(),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
-                              fontSize: 36.0,
+                              fontSize: 32.0,
                             ),
                           )
                           : (monthly) ?
