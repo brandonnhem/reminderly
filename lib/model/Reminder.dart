@@ -5,13 +5,15 @@ class Reminder extends StatelessWidget{
   final String description;
   final String imageUrl;
   final String networkImageUrl;
+  final String emoji;
 
   const Reminder({
     Key? key,
     required this.time,
     required this.description,
     this.imageUrl = '',
-    this.networkImageUrl = ''
+    this.networkImageUrl = '',
+    this.emoji = ''
   }) : super(key: key);
 
   @override
@@ -105,29 +107,41 @@ class Reminder extends StatelessWidget{
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: imageUrl != '' ? 
-                    Image.asset(
-                      imageUrl,
-                      height: 125.0,
-                      fit: BoxFit.cover,
-                    )
-                    : 
-                    Image.network(
-                      networkImageUrl,
-                      height: 125.0,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                        if(loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.deepOrange,
-                            value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                              : null,
+                  child: (imageUrl != '' || networkImageUrl != '') ? 
+                    imageUrl != '' ? 
+                      Image.asset(
+                        imageUrl,
+                        height: 125.0,
+                        fit: BoxFit.cover,
+                      )
+                      : Image.network(
+                        networkImageUrl,
+                        height: 125.0,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if(loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.deepOrange,
+                              value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                                : null,
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                      color: Colors.blue[100],
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
+                        child: Text(
+                          emoji,
+                          style: const TextStyle(
+                            fontSize: 64.0,
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                 ),
               ),
