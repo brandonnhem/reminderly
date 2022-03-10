@@ -40,10 +40,7 @@ class Remindly extends StatelessWidget {
             // nothing yet
           },
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: ReminderPage(),
-        )
+        body: ReminderPage()
       )
     );
   }
