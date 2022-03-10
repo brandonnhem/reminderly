@@ -23,7 +23,7 @@ class Reminder extends StatelessWidget{
 
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16.0),
+        margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(6.0),
