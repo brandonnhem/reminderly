@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 
 class Reminder extends StatelessWidget{
-  final String time;
+  final DateTime date;
   final String description;
   final String imageUrl;
   final String networkImageUrl;
   final String emoji;
+  final bool daily; // use time
+  final bool weekly; // use weekday
+  final bool monthly; // use exact date
+  final bool yearly; // use exact date + year
 
   const Reminder({
     Key? key,
-    required this.time,
+    required this.date,
     required this.description,
     this.imageUrl = '',
     this.networkImageUrl = '',
-    this.emoji = ''
+    this.emoji = '',
+    this.daily = false,
+    this.weekly = false,
+    this.monthly = false,
+    this.yearly = false
   }) : super(key: key);
 
   @override
@@ -61,13 +69,52 @@ class Reminder extends StatelessWidget{
                           top: 8.0,
                           bottom: 8.0
                         ),
-                        child: Text(
-                          time,
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(
-                            fontSize: 36.0,
-                          ),
-                        ),
+                        child: (daily) ?
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                getDailyTimeString(),
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  fontSize: 36.0,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: Text(
+                                  (date.hour >= 12) ? 'PM' : 'AM',
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                          : (weekly) ?
+                          Text(
+                            getWeeklyDayString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                              fontSize: 36.0,
+                            ),
+                          )
+                          : (monthly) ?
+                          Text(
+                            getMonthlyDateString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                              fontSize: 36.0,
+                            ),
+                          )
+                          : (yearly) ?
+                          Text(
+                            getYearlyDateString(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                              fontSize: 30.0,
+                            ),
+                          ) 
+                          : null
                       ),
                     ),
                     Flexible(
@@ -151,4 +198,68 @@ class Reminder extends StatelessWidget{
       ),
     );
   }
+
+  String getDailyTimeString() {
+    int nonMilitaryTime = 24 - date.hour;
+    if (date.minute == 0) {
+      return '$nonMilitaryTime:${date.minute}0'; 
+    } else {
+      return '$nonMilitaryTime:${date.minute}';
+    }
+  }
+
+  String getWeeklyDayString() {
+    int weekday = date.weekday;
+    switch(weekday) {
+      case 1: { return 'Monday'; }
+      case 2: { return 'Tuesday'; }
+      case 3: { return 'Wednesday'; }
+      case 4: { return 'Thursday'; }
+      case 5: { return 'Friday'; }
+      case 6: { return 'Saturday'; }
+      case 7: { return 'Sunday'; }
+      default: { return 'Invalid Weekday'; }
+    }
+  }
+
+  String getMonthlyDateString() {
+    String fullDate = "";
+    int month = date.month;
+    switch(month) {
+      case 1: { fullDate += 'Jan.'; }
+      break;
+      case 2: { fullDate += 'Feb.'; }
+      break;
+      case 3: { fullDate += 'Mar.'; }
+      break;
+      case 4: { fullDate += 'Apr.'; }
+      break;
+      case 5: { fullDate += 'May'; }
+      break;
+      case 6: { fullDate += 'Jun.'; }
+      break;
+      case 7: { fullDate += 'Jul.'; }
+      break;
+      case 8: { fullDate += 'Aug.'; }
+      break;
+      case 9: { fullDate += 'Sep.'; }
+      break;
+      case 10: { fullDate += 'Oct.'; }
+      break;
+      case 11: { fullDate += 'Nov.'; }
+      break;
+      case 12: { fullDate += 'Dec.'; }
+      break;
+      default: { fullDate += 'Invalid Month'; }
+      break;
+    }
+
+    return fullDate + ' ${date.day}';
+  }
+
+  String getYearlyDateString() {
+    String fullDate = getMonthlyDateString();
+    return '\'' + date.year.toString().substring(2) + ' ' + fullDate;
+  }
 }
+
