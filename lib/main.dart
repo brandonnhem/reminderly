@@ -1,7 +1,22 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:reminder_app/router/main_router.gr.dart';
 import 'package:reminder_app/ui/reminder_list.dart';
 
-void main() => runApp(Remindly());
+void main() => runApp(App());
+
+class App extends StatelessWidget {
+  App({Key? key}) : super(key: key);
+
+  final _appRouter = AppRouter();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+    );
+  }
+}
 
 class Remindly extends StatelessWidget {
   const Remindly({Key? key}) : super(key: key);
@@ -37,7 +52,8 @@ class Remindly extends StatelessWidget {
           ),
           backgroundColor: Colors.deepOrange,
           onPressed: () {
-            // nothing yet
+            // open new reminder page
+            AutoRouter.of(context).pushNamed('/new-reminder');
           },
         ),
         body: ReminderPage()
